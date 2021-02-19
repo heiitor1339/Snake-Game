@@ -1,0 +1,130 @@
+class SnakeGame {
+
+    field Snake snake;
+    field int direction; // 0=none,1=up,2=right,3=down,4=left
+    field Food food;
+    constructor SnakeGame new() {
+        let snake = Snake.new();
+        
+        let direction = 2;
+        return this;
+    }
+  method boolean eat(){
+    var boolean yes;
+    let yes = false;
+    if ((((snake.getY1()<food.getY())|(snake.getY1()=food.getY())) & ((food.getY()<snake.getY2())|(snake.getY2()=food.getY())) & ((snake.getX1()<food.getX())|(snake.getX1()=food.getX())) & ((food.getX()<snake.getX2())|(snake.getX2()=food.getX()))))  {
+                 do snake.incLenght();
+                 do food.eraseFood();
+                 do snake.drawHead();
+                 do food.placeFood();
+                 let yes = true;
+              }
+ return yes;
+}
+ method void printScore(int s){
+ if (s<10){
+ do Output.backSpace();
+ do Output.printInt(s);}
+ else{
+ if (s<100){
+do Output.backSpace();
+do Output.backSpace();
+ do Output.printInt(s);}
+ else {
+do Output.backSpace();
+do Output.backSpace();
+do Output.backSpace();
+do Output.printInt(s);
+   }}
+ return;
+ }
+   method void run(){
+    var char key;
+    var int score;
+    var boolean exit;
+    let food = Food.new(256, 128, snake.getThick(), snake.getLenght());
+    let exit = false;
+    let score = 0;
+    do Output.printString("Score:  ");
+    do Output.printInt(score);
+    while (~exit){
+     while ((key = 0)&(~exit)) {
+      let key = Keyboard.keyPressed();
+      do moveSnake();
+      if (eat()){
+       let score = score + 1 ;
+       do printScore(score);}
+      else { do food.drawFood();}
+      if (snake.isDead()){
+       let exit = true;
+      }
+     }
+     if (key = 131) {
+            if (~(direction=3)){
+                let direction = 1;} //up
+            }
+            if (key = 133) {
+            if (~(direction=1)){
+                let direction = 3;} //down
+            }
+            if (key = 130) {
+            if (~(direction=2)){
+                let direction = 4;}  //left
+            }
+            if (key = 132) {
+            if (~(direction=4)){
+                let direction = 2;}  //right
+            }
+  while ((~(key = 0))&(~exit)) {
+      let key = Keyboard.keyPressed();
+      do moveSnake();
+     if (eat()){
+       let score = score + 1 ;
+       do printScore(score);}
+       else { do food.drawFood();}
+     if (snake.isDead()){
+       let exit = true;}
+     }
+     do Sys.wait(2);
+     }
+           //do snake.erase();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.println();
+            do Output.printString("                         Final de Jogo");
+            do Screen.setColor(true);
+            do Screen.drawRectangle(0,12,5,255);
+  return;
+   }
+    method void dispose() {
+        do snake.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+
+  method void moveSnake(){
+    if (direction = 1 ){
+    do snake.moveUp();
+    }
+   if (direction = 2 ){
+    do snake.moveRight();
+    }
+if (direction = 3 ){
+    do snake.moveDown();
+    }
+if (direction = 4 ){
+    do snake.moveLeft();
+    }
+  return;
+ }
+
+}
