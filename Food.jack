@@ -1,0 +1,57 @@
+class Food {
+ field int x,y;
+  field int big;
+
+  
+  constructor Food new(int row, int column, int thick, int distance){
+    let x = row + distance + 10;
+    let y = column;
+    let big = thick;
+    
+    do drawFood();
+    
+    return this;
+  }
+
+  method int getX(){
+    return x;
+  }
+  method int getY(){
+    return y;
+  }
+  method void dispose(){
+    do Memory.deAlloc(this);
+    return;
+  }
+  method void eraseFood(){
+  do Screen.setColor(false);
+  do Screen.drawRectangle(x,y,x+big,y+big);
+  return;
+  }
+  method void drawFood(){
+   do Screen.setColor(true);
+   do Screen.drawRectangle(x,y,x+big,y+big);
+   return;
+  }
+  method void placeFood(){
+    var int a;
+    var boolean exit;
+    let exit = true;
+    while (exit){
+    let x = Math.multiply(x,21);
+    let a = Math.divide(x,512);
+    let a = Math.multiply(a,512);
+    let x = x - a;
+    let y = Math.multiply(y,10);
+    let a = Math.divide(y,256);
+    let a = Math.multiply(a,256);
+    let y = y-a;
+    if ((x<(5+big)) |(y<(5+12+big))) {
+ let exit = true;
+ if (((x>(511-5-big)))|((y>(256-5-big)))) {let x = 30; let y = 30;}
+}   
+  else {let exit = false;}}
+    do drawFood();
+    return;
+  }
+}
